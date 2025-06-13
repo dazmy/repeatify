@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Playlistify",
+  "version": "1.0",
+  "description": "Manage song for Youtube Music.",
+  "icons": {
+    "48": "icons/playlistify-48.png"
+  },
+  "permissions": ["activeTab"],
+  "browser_action": {
+    "default_icon": "icons/playlistify-32.png",
+    "default_title": "Playlistify",
+    "default_popup": "popup/playlistify.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://music.youtube.com/*"],
+      "js": ["content_scripts/playlistify.js"]
+    }
+  ]
+}
