@@ -1,8 +1,7 @@
-const playPauseButton = document.getElementById("play-pause-button");
-const isPlay = playPauseButton.getAttribute("title").includes("Jeda");
+const playButton = document.getElementById("play-pause-button");
 
-if (isPlay) {
-  console.log("SUDAH JALAN DARI TADI");
-} else {
-  playPauseButton.click();
-}
+browser.runtime.onMessage.addListener((message) => {
+  if (playButton) {
+    playButton.click();
+  }
+});
