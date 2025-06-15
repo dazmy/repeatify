@@ -8,12 +8,32 @@ function exec(tabs) {
   }
 }
 
+function repeatRecent(tabs, repeat) {
+  browser.tabs.sendMessage(tabs[0].id, {
+    action: "repeat-recent",
+    value: repeat,
+  });
+  browser.storage.local.set({ repeatRecent: repeat });
+}
+
 function err(tabs) {
   console.error("error : ", tabs);
 }
 
 const button = document.getElementById("play");
+const recentSong = document.querySelector("input#recentSong");
+
+browser.storage.local.get("repeatRecent", (data) => {
+  recentSong.value = data.repeatRecent;
+});
 
 button.addEventListener("click", () => {
   browser.tabs.query({ url: "*://music.youtube.com/*" }).then(exec).catch(err);
+});
+
+recentSong.addEventListener("input", () => {
+  browser.tabs
+    .query({ url: "*://music.youtube.com/*" })
+    .then((tabs) => repeatRecent(tabs, recentSong.value))
+    .catch(err);
 });

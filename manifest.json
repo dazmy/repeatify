@@ -6,7 +6,7 @@
   "icons": {
     "48": "icons/playlistify-48.png"
   },
-  "permissions": ["activeTab", "tabs", "*://music.youtube.com/"],
+  "permissions": ["activeTab", "tabs", "*://music.youtube.com/", "storage"],
   "browser_action": {
     "default_icon": "icons/playlistify-32.png",
     "default_title": "Playlistify",
