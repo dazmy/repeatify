@@ -1,7 +1,16 @@
-const playButton = document.getElementById("play-pause-button");
+(() => {
+  browser.runtime.onMessage.addListener((message) => {
+    const video = document.querySelector("video");
 
-browser.runtime.onMessage.addListener((message) => {
-  if (playButton) {
-    playButton.click();
-  }
-});
+    if (video && message.action.includes("play-pause")) {
+      if (video.paused) {
+        video.play().catch((e) => {
+          alert("Please click anywhere...");
+          console.error("Can't use autoplay : ", e);
+        });
+      } else if (video.played) {
+        video.pause();
+      }
+    }
+  });
+})();

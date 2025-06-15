@@ -3,7 +3,7 @@ function exec(tabs) {
     browser.tabs.create({ url: "https://music.youtube.com" });
   } else {
     browser.tabs.sendMessage(tabs[0].id, {
-      command: "TEST",
+      action: "play-pause",
     });
   }
 }
