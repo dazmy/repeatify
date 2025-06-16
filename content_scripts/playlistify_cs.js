@@ -1,6 +1,6 @@
 (() => {
   // use anywhere
-  const video = document.querySelector("video");
+  let video = document.querySelector("video");
 
   // use at repeat recent
   let repeatCount = 0;
@@ -51,18 +51,16 @@
   }
 
   browser.runtime.onMessage.addListener((message) => {
-    if (!video) return;
-
-    if (video && message.action.includes("play-pause")) {
-      playPause();
+    if (!video) {
+      video = document.querySelector("video");
+      if (!video) return;
     }
 
-    if (video && message.action.includes("repeat-recent")) {
+    if (video && message.action.includes("play-pause")) playPause();
+
+    if (video && message.action.includes("repeat-recent"))
       repeatRecent(parseInt(message.value || 0));
-    }
 
-    if (video && message.action.includes("loop")) {
-      loop(message.value);
-    }
+    if (video && message.action.includes("loop")) loop(message.value);
   });
 })();
