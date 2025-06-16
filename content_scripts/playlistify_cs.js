@@ -46,6 +46,10 @@
     }
   }
 
+  function loop(isLoop) {
+    video.loop = isLoop;
+  }
+
   browser.runtime.onMessage.addListener((message) => {
     if (!video) return;
 
@@ -55,6 +59,10 @@
 
     if (video && message.action.includes("repeat-recent")) {
       repeatRecent(parseInt(message.value || 0));
+    }
+
+    if (video && message.action.includes("loop")) {
+      loop(message.value);
     }
   });
 })();
