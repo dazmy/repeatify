@@ -2,6 +2,9 @@
   // use anywhere
   let video = document.querySelector("video");
 
+  const repeatButton = document.querySelector(".repeat");
+  repeatButton.remove();
+
   const observer = new MutationObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.oldValue) {
