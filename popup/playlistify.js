@@ -16,12 +16,20 @@ function repeatRecent(tabs, repeat) {
   browser.storage.local.set({ repeatRecent: repeat });
 }
 
+function loop(tabs, isLoop) {
+  browser.tabs.sendMessage(tabs[0].id, {
+    action: "loop",
+    value: isLoop,
+  });
+}
+
 function err(tabs) {
   console.error("error : ", tabs);
 }
 
 const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
+const loopSong = document.querySelector("input#loop");
 
 browser.storage.local.get("repeatRecent", (data) => {
   recentSong.value = data.repeatRecent;
@@ -35,5 +43,12 @@ recentSong.addEventListener("input", () => {
   browser.tabs
     .query({ url: "*://music.youtube.com/*" })
     .then((tabs) => repeatRecent(tabs, recentSong.value))
+    .catch(err);
+});
+
+loopSong.addEventListener("change", (e) => {
+  browser.tabs
+    .query({ url: "*://music.youtube.com/*" })
+    .then((tabs) => loop(tabs, e.target.checked))
     .catch(err);
 });
