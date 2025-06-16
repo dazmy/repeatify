@@ -21,6 +21,7 @@ function loop(tabs, isLoop) {
     action: "loop",
     value: isLoop,
   });
+  browser.storage.local.set({ loop: isLoop });
 }
 
 function err(tabs) {
@@ -31,10 +32,20 @@ const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
 const loopSong = document.querySelector("input#loop");
 
+/**
+ * set value input
+ */
 browser.storage.local.get("repeatRecent", (data) => {
   recentSong.value = data.repeatRecent;
 });
 
+browser.storage.local.get("loop", (data) => {
+  loopSong.checked = data.loop;
+});
+
+/**
+ * event listener
+ */
 button.addEventListener("click", () => {
   browser.tabs.query({ url: "*://music.youtube.com/*" }).then(exec).catch(err);
 });
