@@ -2,6 +2,23 @@
   // use anywhere
   let video = document.querySelector("video");
 
+  const observer = new MutationObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.oldValue) {
+        browser.storage.local.get(["repeatRecent", "loop"], (data) => {
+          // later...
+          // repeatRecent(data.repeatRecent || 0);
+          video.loop = data.loop || false;
+        });
+      }
+    });
+  });
+  observer.observe(video, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ["src"],
+  });
+
   // use at repeat recent
   let repeatCount = 0;
   let videoTimeUpdateHandler = null;
