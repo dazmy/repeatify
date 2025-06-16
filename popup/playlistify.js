@@ -35,12 +35,9 @@ const loopSong = document.querySelector("input#loop");
 /**
  * set value input
  */
-browser.storage.local.get("repeatRecent", (data) => {
-  recentSong.value = data.repeatRecent;
-});
-
-browser.storage.local.get("loop", (data) => {
-  loopSong.checked = data.loop;
+browser.storage.local.get(["repeatRecent", "loop"], (data) => {
+  recentSong.value = data.repeatRecent || 0;
+  loopSong.checked = data.loop || false;
 });
 
 /**
