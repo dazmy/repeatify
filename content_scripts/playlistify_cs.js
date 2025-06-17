@@ -2,8 +2,22 @@
   // use anywhere
   let video = document.querySelector("video");
 
-  const repeatButton = document.querySelector(".repeat");
-  repeatButton.remove();
+  // const repeatButton = document.querySelector(".repeat");
+  // repeatButton.remove();
+
+  // use when browser get refresh / first load!
+  const observeVideo = new MutationObserver((entries) => {
+    entries.forEach((e) => {
+      if (
+        e.target.nodeName.includes("VIDEO") &&
+        e.attributeName.includes("src")
+      ) {
+        video = document.querySelector("video");
+        observeVideo.disconnect();
+      }
+    });
+  });
+  observeVideo.observe(document.querySelector("#player"), optObsVideo);
 
   const observer = new MutationObserver((entries) => {
     entries.forEach((entry) => {
@@ -72,8 +86,7 @@
 
   browser.runtime.onMessage.addListener((message) => {
     if (!video) {
-      video = document.querySelector("video");
-      if (!video) return;
+      return;
     }
 
     if (video && message.action.includes("play-pause")) playPause();
