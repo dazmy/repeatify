@@ -2,9 +2,6 @@
   // use anywhere
   let video = document.querySelector("video");
 
-  // const repeatButton = document.querySelector(".repeat");
-  // repeatButton.remove();
-
   // use when browser get refresh / first load!
   const observeVideo = new MutationObserver((entries) => {
     entries.forEach((e) => {
@@ -14,6 +11,9 @@
       ) {
         video = document.querySelector("video");
         observeVideo.disconnect();
+
+        const repeatButton = document.querySelector(".repeat");
+        repeatButton.remove();
 
         checkStorage(video);
         obsChangeSong(video);
