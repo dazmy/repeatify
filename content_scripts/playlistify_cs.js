@@ -12,8 +12,7 @@
         video = document.querySelector("video");
         observeVideo.disconnect();
 
-        const repeatButton = document.querySelector(".repeat");
-        repeatButton.remove();
+        document.querySelector(".repeat").remove();
 
         checkStorage(video);
         obsChangeSong(video);
@@ -71,9 +70,7 @@
   }
 
   browser.runtime.onMessage.addListener((message) => {
-    if (!video) {
-      return;
-    }
+    if (!video) return;
 
     if (video && message.action.includes("play-pause")) playPause();
 
