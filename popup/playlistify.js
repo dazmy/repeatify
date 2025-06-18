@@ -14,9 +14,11 @@ function repeatRecent(tabs, repeat) {
     value: repeat,
   });
   browser.storage.local.set({ repeatRecent: repeat, leftRepeat: repeat });
+  leftRepeat.textContent = repeat;
 }
 
 function loop(tabs, isLoop) {
+  checkLoop(isLoop);
   browser.tabs.sendMessage(tabs[0].id, {
     action: "loop",
     value: isLoop,
@@ -26,6 +28,20 @@ function loop(tabs, isLoop) {
 
 function err(tabs) {
   console.error("error : ", tabs);
+}
+
+function checkLoop(isLoop) {
+  if (isLoop) {
+    recentSong.disabled = true;
+    buttonSave.disabled = true;
+    leftRepeat.textContent = "∞";
+  } else {
+    recentSong.disabled = false;
+    buttonSave.disabled = false;
+    browser.storage.local.get(["leftRepeat"], (data) => {
+      leftRepeat.textContent = data.leftRepeat || 0;
+    });
+  }
 }
 
 const button = document.getElementById("play");
@@ -41,6 +57,8 @@ browser.storage.local.get(["repeatRecent", "loop"], (data) => {
   recentSong.value = data.repeatRecent || 0;
   loopSong.checked = data.loop || false;
   leftRepeat.textContent = data.repeatRecent || 0;
+
+  checkLoop(loopSong.checked);
 });
 
 /**
