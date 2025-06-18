@@ -1,3 +1,23 @@
+const button = document.getElementById("play");
+const recentSong = document.querySelector("input#recentSong");
+const loopSong = document.querySelector("input#loop");
+const buttonSave = document.querySelector("button#saveRepeat");
+const leftRepeat = document.querySelector("span#leftRepeat");
+
+function checkLoop(isLoop) {
+  if (isLoop) {
+    recentSong.disabled = true;
+    buttonSave.disabled = true;
+    leftRepeat.textContent = "∞";
+  } else {
+    recentSong.disabled = false;
+    buttonSave.disabled = false;
+    browser.storage.local.get(["leftRepeat"], (data) => {
+      leftRepeat.textContent = data.leftRepeat || 0;
+    });
+  }
+}
+
 function exec(tabs) {
   if (!tabs.length) {
     browser.tabs.create({ url: "https://music.youtube.com" });
@@ -14,6 +34,7 @@ function repeatRecent(tabs, repeat) {
     value: repeat,
   });
   browser.storage.local.set({ repeatRecent: repeat, leftRepeat: repeat });
+  recentSong.value = repeat;
   leftRepeat.textContent = repeat;
 }
 
@@ -26,29 +47,9 @@ function loop(tabs, isLoop) {
   browser.storage.local.set({ loop: isLoop });
 }
 
-function err(tabs) {
-  console.error("error : ", tabs);
+function err(err) {
+  console.error("error : ", err);
 }
-
-function checkLoop(isLoop) {
-  if (isLoop) {
-    recentSong.disabled = true;
-    buttonSave.disabled = true;
-    leftRepeat.textContent = "∞";
-  } else {
-    recentSong.disabled = false;
-    buttonSave.disabled = false;
-    browser.storage.local.get(["leftRepeat"], (data) => {
-      leftRepeat.textContent = data.leftRepeat || 0;
-    });
-  }
-}
-
-const button = document.getElementById("play");
-const recentSong = document.querySelector("input#recentSong");
-const loopSong = document.querySelector("input#loop");
-const buttonSave = document.querySelector("button#saveRepeat");
-const leftRepeat = document.querySelector("span#leftRepeat");
 
 /**
  * set value input
@@ -56,7 +57,6 @@ const leftRepeat = document.querySelector("span#leftRepeat");
 browser.storage.local.get(["repeatRecent", "loop"], (data) => {
   recentSong.value = data.repeatRecent || 0;
   loopSong.checked = data.loop || false;
-  leftRepeat.textContent = data.repeatRecent || 0;
 
   checkLoop(loopSong.checked);
 });
