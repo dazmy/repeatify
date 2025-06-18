@@ -13,7 +13,7 @@ function repeatRecent(tabs, repeat) {
     action: "repeat-recent",
     value: repeat,
   });
-  browser.storage.local.set({ repeatRecent: repeat });
+  browser.storage.local.set({ repeatRecent: repeat, leftRepeat: repeat });
 }
 
 function loop(tabs, isLoop) {
@@ -32,6 +32,7 @@ const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
 const loopSong = document.querySelector("input#loop");
 const buttonSave = document.querySelector("button#saveRepeat");
+const leftRepeat = document.querySelector("span#leftRepeat");
 
 /**
  * set value input
@@ -39,6 +40,7 @@ const buttonSave = document.querySelector("button#saveRepeat");
 browser.storage.local.get(["repeatRecent", "loop"], (data) => {
   recentSong.value = data.repeatRecent || 0;
   loopSong.checked = data.loop || false;
+  leftRepeat.textContent = data.repeatRecent || 0;
 });
 
 /**
