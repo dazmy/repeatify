@@ -79,5 +79,7 @@
       repeatRecent(parseInt(message.value || 0));
 
     if (message.action.includes("loop")) loop(message.value);
+
+    if (message.action.includes("every")) console.log(message.value);
   });
 })();

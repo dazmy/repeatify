@@ -3,18 +3,21 @@ const recentSong = document.querySelector("input#recentSong");
 const loopSong = document.querySelector("input#loop");
 const buttonSave = document.querySelector("button#saveRepeat");
 const leftRepeat = document.querySelector("span#leftRepeat");
+const everySong = document.querySelector("input#every");
 
 function checkLoop(isLoop) {
   if (isLoop) {
     recentSong.disabled = true;
     buttonSave.disabled = true;
     leftRepeat.textContent = "∞";
+    everySong.disabled = true;
   } else {
     recentSong.disabled = false;
     buttonSave.disabled = false;
     browser.storage.local.get(["leftRepeat"], (data) => {
       leftRepeat.textContent = data.leftRepeat || 0;
     });
+    everySong.disabled = false;
   }
 }
 
@@ -47,6 +50,14 @@ function loop(tabs, isLoop) {
   browser.storage.local.set({ loop: isLoop });
 }
 
+function every(tabs, isEvery) {
+  browser.tabs.sendMessage(tabs[0].id, {
+    action: "every",
+    value: isEvery,
+  });
+  browser.storage.local.set({ every: isEvery });
+}
+
 function err(err) {
   console.error("error : ", err);
 }
@@ -54,9 +65,10 @@ function err(err) {
 /**
  * set value input
  */
-browser.storage.local.get(["repeatRecent", "loop"], (data) => {
+browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
   recentSong.value = data.repeatRecent || 0;
   loopSong.checked = data.loop || false;
+  everySong.checked = data.every || false;
 
   checkLoop(loopSong.checked);
 });
@@ -79,5 +91,12 @@ loopSong.addEventListener("change", (e) => {
   browser.tabs
     .query({ url: "*://music.youtube.com/*" })
     .then((tabs) => loop(tabs, e.target.checked))
+    .catch(err);
+});
+
+everySong.addEventListener("change", (e) => {
+  browser.tabs
+    .query({ url: "*://music.youtube.com/*" })
+    .then((tabs) => every(tabs, e.target.checked))
     .catch(err);
 });
