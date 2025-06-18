@@ -73,11 +73,11 @@
   browser.runtime.onMessage.addListener((message) => {
     if (!video) return;
 
-    if (video && message.action.includes("play-pause")) playPause();
+    if (message.action.includes("play-pause")) playPause();
 
-    if (video && message.action.includes("repeat-recent"))
+    if (message.action.includes("repeat-recent"))
       repeatRecent(parseInt(message.value || 0));
 
-    if (video && message.action.includes("loop")) loop(message.value);
+    if (message.action.includes("loop")) loop(message.value);
   });
 })();
