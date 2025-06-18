@@ -15,7 +15,8 @@
         checkStorage(video);
         obsChangeSong(video);
 
-        document.querySelector(".repeat").remove();
+        document.querySelector(".playback-rate").hidden = false;
+        document.querySelector(".repeat").hidden = true;
       }
     });
   });
