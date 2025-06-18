@@ -31,6 +31,7 @@ function err(tabs) {
 const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
 const loopSong = document.querySelector("input#loop");
+const buttonSave = document.querySelector("button#saveRepeat");
 
 /**
  * set value input
@@ -47,7 +48,7 @@ button.addEventListener("click", () => {
   browser.tabs.query({ url: "*://music.youtube.com/*" }).then(exec).catch(err);
 });
 
-recentSong.addEventListener("input", () => {
+buttonSave.addEventListener("click", () => {
   browser.tabs
     .query({ url: "*://music.youtube.com/*" })
     .then((tabs) => repeatRecent(tabs, recentSong.value))
