@@ -12,10 +12,10 @@
         video = document.querySelector("video");
         observeVideo.disconnect();
 
-        document.querySelector(".repeat").remove();
-
         checkStorage(video);
         obsChangeSong(video);
+
+        document.querySelector(".repeat").remove();
       }
     });
   });
