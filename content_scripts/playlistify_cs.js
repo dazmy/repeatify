@@ -50,7 +50,7 @@
         // need more safe for checking currentTime, but at least it works!
         if (video.currentTime < lastTime && video.currentTime < 0.1) {
           repeatCount--;
-          browser.storage.local.set({ repeatRecent: repeatCount });
+          browser.storage.local.set({ leftRepeat: repeatCount });
 
           if (repeatCount <= 0) {
             video.loop = false;
