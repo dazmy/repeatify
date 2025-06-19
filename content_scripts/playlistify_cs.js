@@ -25,6 +25,18 @@
   // use at repeat recent
   let repeatCount = 0;
   let videoTimeUpdateHandler = null;
+  let videoEndedHandler = null;
+
+  function cleanupHandlers() {
+    if (videoTimeUpdateHandler) {
+      video.removeEventListener("timeupdate", videoTimeUpdateHandler);
+      videoTimeUpdateHandler = null;
+    }
+    if (videoEndedHandler) {
+      video.removeEventListener("ended", videoEndedHandler);
+      videoEndedHandler = null;
+    }
+  }
 
   function playPause() {
     if (video.paused) {
@@ -45,7 +57,7 @@
     repeatCount = n;
     video.loop = n > 0;
 
-    if (video.loop) {
+    if (n > 0) {
       let lastTime = 0;
       videoTimeUpdateHandler = () => {
         // need more safe for checking currentTime, but at least it works!
@@ -55,7 +67,17 @@
 
           if (repeatCount <= 0) {
             video.loop = false;
-            video.removeEventListener("timeupdate", videoTimeUpdateHandler);
+            cleanupHandlers();
+
+            browser.storage.local.get(["every"], (data) => {
+              if (data.every) {
+                videoEndedHandler = () => {
+                  browser.storage.local.set({ leftRepeat: n });
+                  repeatRecent(n);
+                };
+                video.addEventListener("ended", videoEndedHandler);
+              }
+            });
           }
         }
 

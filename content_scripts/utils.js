@@ -7,10 +7,13 @@ const optObsVideo = {
 };
 
 function checkStorage(video) {
-  browser.storage.local.get(["repeatRecent", "loop"], (data) => {
+  browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
     // later...
     // repeatRecent(data.repeatRecent || 0);
     video.loop = data.loop || false;
+    if (!video.loop) {
+      video.loop = data.every;
+    }
   });
 }
 
