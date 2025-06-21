@@ -50,9 +50,7 @@
   }
 
   function repeatRecent(n) {
-    if (videoTimeUpdateHandler) {
-      video.removeEventListener("timeupdate", videoTimeUpdateHandler);
-    }
+    cleanupHandlers();
 
     repeatCount = n;
     video.loop = n > 0;
@@ -61,7 +59,10 @@
       let lastTime = 0;
       videoTimeUpdateHandler = () => {
         // need more safe for checking currentTime, but at least it works!
-        if (video.currentTime < lastTime && video.currentTime < 0.1) {
+        if (
+          Math.abs(video.currentTime - lastTime) > 0.5 &&
+          video.currentTime < 0.1
+        ) {
           repeatCount--;
           browser.storage.local.set({ leftRepeat: repeatCount });
 
