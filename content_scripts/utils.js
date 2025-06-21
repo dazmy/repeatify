@@ -12,7 +12,10 @@ function checkStorage(video) {
     // repeatRecent(data.repeatRecent || 0);
     video.loop = data.loop || false;
     if (!video.loop) {
-      video.loop = data.every;
+      if (data.every) {
+        video.loop = data.every;
+        browser.storage.local.set({ leftRepeat: data.repeatRecent });
+      }
     }
   });
 }

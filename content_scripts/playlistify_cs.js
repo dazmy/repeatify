@@ -1,4 +1,5 @@
 (() => {
+  browser.storage.local.clear();
   // use anywhere
   let video = document.querySelector("video");
 
@@ -26,6 +27,7 @@
   let repeatCount = 0;
   let videoTimeUpdateHandler = null;
   let videoEndedHandler = null;
+  let currentSrc = "";
 
   function cleanupHandlers() {
     if (videoTimeUpdateHandler) {
@@ -54,6 +56,7 @@
 
     repeatCount = n;
     video.loop = n > 0;
+    currentSrc = video.src;
 
     if (n > 0) {
       let lastTime = 0;
@@ -61,7 +64,8 @@
         // need more safe for checking currentTime, but at least it works!
         if (
           Math.abs(video.currentTime - lastTime) > 0.5 &&
-          video.currentTime < 0.1
+          video.currentTime < 0.1 &&
+          currentSrc == video.src
         ) {
           repeatCount--;
           browser.storage.local.set({ leftRepeat: repeatCount });
@@ -79,6 +83,12 @@
                 video.addEventListener("ended", videoEndedHandler);
               }
             });
+          }
+        } else {
+          if (currentSrc != video.src) {
+            repeatCount = n;
+            video.loop = n > 0;
+            currentSrc = video.src;
           }
         }
 
