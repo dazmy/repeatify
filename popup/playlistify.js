@@ -17,7 +17,7 @@ function checkLoop(isLoop) {
     browser.storage.local.get(["leftRepeat"], (data) => {
       leftRepeat.textContent = data.leftRepeat || 0;
     });
-    everySong.disabled = false;
+    everySong.disabled = !parseInt(recentSong.value);
   }
 }
 
@@ -78,6 +78,10 @@ browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
  */
 button.addEventListener("click", () => {
   browser.tabs.query({ url: "*://music.youtube.com/*" }).then(exec).catch(err);
+});
+
+recentSong.addEventListener("input", () => {
+  everySong.disabled = !parseInt(recentSong.value);
 });
 
 buttonSave.addEventListener("click", () => {
