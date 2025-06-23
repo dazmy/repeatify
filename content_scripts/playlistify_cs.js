@@ -23,23 +23,6 @@
   });
   observeVideo.observe(document.querySelector("#player"), optObsVideo);
 
-  // use at repeat recent
-  let repeatCount = 0;
-  let videoTimeUpdateHandler = null;
-  let videoEndedHandler = null;
-  let currentSrc = "";
-
-  function cleanupHandlers() {
-    if (videoTimeUpdateHandler) {
-      video.removeEventListener("timeupdate", videoTimeUpdateHandler);
-      videoTimeUpdateHandler = null;
-    }
-    if (videoEndedHandler) {
-      video.removeEventListener("ended", videoEndedHandler);
-      videoEndedHandler = null;
-    }
-  }
-
   function playPause() {
     if (video.paused) {
       video.play().catch((e) => {
@@ -52,7 +35,7 @@
   }
 
   function repeatRecent(n) {
-    cleanupHandlers();
+    cleanupHandlers(video);
 
     repeatCount = n;
     video.loop = n > 0;
@@ -72,7 +55,7 @@
 
           if (repeatCount <= 0) {
             video.loop = false;
-            cleanupHandlers();
+            cleanupHandlers(video);
 
             browser.storage.local.get(["every"], (data) => {
               if (data.every) {

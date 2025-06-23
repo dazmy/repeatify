@@ -6,6 +6,23 @@ const optObsVideo = {
   attributeFilter: ["src"],
 };
 
+// use at repeat recent
+let repeatCount = 0;
+let videoTimeUpdateHandler = null;
+let videoEndedHandler = null;
+let currentSrc = "";
+
+function cleanupHandlers(video) {
+  if (videoTimeUpdateHandler) {
+    video.removeEventListener("timeupdate", videoTimeUpdateHandler);
+    videoTimeUpdateHandler = null;
+  }
+  if (videoEndedHandler) {
+    video.removeEventListener("ended", videoEndedHandler);
+    videoEndedHandler = null;
+  }
+}
+
 function checkStorage(video) {
   browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
     // later...
@@ -15,6 +32,10 @@ function checkStorage(video) {
       if (data.every) {
         video.loop = data.every;
         browser.storage.local.set({ leftRepeat: data.repeatRecent });
+      } else {
+        browser.storage.local.set({ leftRepeat: 0 });
+        video.loop = false;
+        cleanupHandlers(video);
       }
     }
   });
