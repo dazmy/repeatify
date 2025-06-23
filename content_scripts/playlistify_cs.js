@@ -84,6 +84,7 @@
 
   function loop(isLoop) {
     video.loop = isLoop;
+    isLoop ? cleanupHandlers(video) : null;
   }
 
   browser.runtime.onMessage.addListener((message) => {
