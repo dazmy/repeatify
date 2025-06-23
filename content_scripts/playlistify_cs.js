@@ -84,7 +84,16 @@
 
   function loop(isLoop) {
     video.loop = isLoop;
-    isLoop ? cleanupHandlers(video) : null;
+    if (isLoop) {
+      cleanupHandlers(video);
+    } else {
+      browser.storage.local.get(["leftRepeat"], (data) => {
+        const left = parseInt(data.leftRepeat);
+        if (left > 0) {
+          repeatRecent(left);
+        }
+      });
+    }
   }
 
   browser.runtime.onMessage.addListener((message) => {
