@@ -1,21 +1,21 @@
 {
   "manifest_version": 2,
-  "name": "Playlistify",
+  "name": "Repeatify",
   "version": "1.0",
-  "description": "Manage song for Youtube Music.",
+  "description": "Manage repeat song for Youtube Music.",
   "icons": {
-    "48": "icons/playlistify-48.png"
+    "48": "icons/repeatify-48.png"
   },
   "permissions": ["activeTab", "tabs", "*://music.youtube.com/", "storage"],
   "browser_action": {
-    "default_icon": "icons/playlistify-32.png",
-    "default_title": "Playlistify",
-    "default_popup": "popup/playlistify.html"
+    "default_icon": "icons/repeatify-32.png",
+    "default_title": "Repeatify",
+    "default_popup": "popup/repeatify.html"
   },
   "content_scripts": [
     {
       "matches": ["*://music.youtube.com/*"],
-      "js": ["content_scripts/utils.js", "content_scripts/playlistify_cs.js"]
+      "js": ["content_scripts/utils.js", "content_scripts/repeatify_cs.js"]
     }
   ]
 }
