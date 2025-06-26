@@ -1,0 +1,12 @@
+{
+  "summary": {
+    "en-US": "Manage repeat song for Youtube Music."
+  },
+  "categories": ["other"],
+  "version": {
+    "license": "MIT"
+  },
+  "name": {
+    "en-US": "Repeatify"
+  }
+}
