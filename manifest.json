@@ -17,5 +17,8 @@
       "matches": ["*://music.youtube.com/*"],
       "js": ["content_scripts/utils.js", "content_scripts/repeatify_cs.js"]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": { "id": "{83ae1fd1-7306-4de4-adbf-850bb88a388c}" }
+  }
 }
