@@ -20,5 +20,19 @@
   ],
   "browser_specific_settings": {
     "gecko": { "id": "{83ae1fd1-7306-4de4-adbf-850bb88a388c}" }
+  },
+  "background": {
+    "scripts": ["background/background.js"],
+    "persistent": false
+  },
+  "commands": {
+    "play-pause": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+F",
+        "windows": "Ctrl+Shift+F",
+        "mac": "Command+Shift+F"
+      },
+      "description": "play / pause song"
+    }
   }
 }
