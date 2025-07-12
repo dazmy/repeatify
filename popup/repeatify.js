@@ -1,3 +1,5 @@
+import { exec, err } from "../modules/shared.js";
+
 const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
 const loopSong = document.querySelector("input#loop");
@@ -18,16 +20,6 @@ function checkLoop(isLoop) {
       leftRepeat.textContent = data.leftRepeat || 0;
     });
     everySong.disabled = !parseInt(recentSong.value);
-  }
-}
-
-function exec(tabs) {
-  if (!tabs.length) {
-    browser.tabs.create({ url: "https://music.youtube.com" });
-  } else {
-    browser.tabs.sendMessage(tabs[0].id, {
-      action: "play-pause",
-    });
   }
 }
 
@@ -58,10 +50,6 @@ function every(tabs, isEvery) {
   browser.storage.local.set({ every: isEvery });
 }
 
-function err(err) {
-  console.error("error : ", err);
-}
-
 /**
  * set value input
  */
@@ -77,7 +65,10 @@ browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
  * event listener
  */
 button.addEventListener("click", () => {
-  browser.tabs.query({ url: "*://music.youtube.com/*" }).then(exec).catch(err);
+  browser.tabs
+    .query({ url: "*://music.youtube.com/*" })
+    .then((tabs) => exec(tabs, browser))
+    .catch(err);
 });
 
 recentSong.addEventListener("input", () => {
