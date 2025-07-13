@@ -29,11 +29,19 @@
   "commands": {
     "play-pause": {
       "suggested_key": {
-        "default": "Ctrl+Shift+F",
-        "windows": "Ctrl+Shift+F",
-        "mac": "Command+Shift+F"
+        "default": "Ctrl+Shift+Y",
+        "windows": "Ctrl+Shift+Y",
+        "mac": "Command+Shift+Y"
       },
       "description": "play / pause song"
+    },
+    "loop": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "windows": "Ctrl+Shift+U",
+        "mac": "Command+Shift+U"
+      },
+      "description": "repeat / no-repeat current song"
     }
   }
 }
