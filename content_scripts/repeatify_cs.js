@@ -115,6 +115,8 @@
   }
 
   browser.runtime.onMessage.addListener((message) => {
+    if (message.action.includes("sfw")) changeImage(message.value);
+
     if (!video) return;
 
     if (message.action.includes("play-pause")) playPause();
@@ -125,7 +127,5 @@
     if (message.action.includes("loop")) loop(message.value);
 
     if (message.action.includes("every")) console.log(message.value);
-
-    if (message.action.includes("sfw")) changeImage(message.value);
   });
 })();
