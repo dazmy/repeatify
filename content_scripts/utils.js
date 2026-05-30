@@ -61,8 +61,15 @@ function obsChangeSongImg(image) {
   const observeChangeSongImg = new MutationObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.target.src && entry.target.src.includes("googleusercontent")) {
-          browser.storage.local.set({ defaultImg: entry.target.src });
-        }
+        browser.storage.local.set({ defaultImg: entry.target.src });
+
+        browser.storage.local.get(["sfw"], (data) => {
+          const sfw = data.sfw || false;
+          if (sfw) {
+            entry.target.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
+          }
+        });
+      }
     });
   });
 

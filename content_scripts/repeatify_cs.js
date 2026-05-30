@@ -106,7 +106,7 @@
 
   function changeImage(isSfw) {
     if (isSfw) {
-      image.src = "https://i.pinimg.com/originals/82/f1/23/82f123706017a4864d3dbe5ab8fd5e9f.jpg";
+      image.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
     } else {
       browser.storage.local.get(["defaultImg"], (data) => {
         image.src = data.defaultImg;
