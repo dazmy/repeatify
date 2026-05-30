@@ -6,6 +6,7 @@ const loopSong = document.querySelector("input#loop");
 const buttonSave = document.querySelector("button#saveRepeat");
 const leftRepeat = document.querySelector("span#leftRepeat");
 const everySong = document.querySelector("input#every");
+const sfwSong = document.querySelector("input#sfw");
 
 function checkLoop(isLoop) {
   if (isLoop) {
@@ -50,13 +51,22 @@ function every(tabs, isEvery) {
   browser.storage.local.set({ every: isEvery });
 }
 
+function sfw(tabs, isSfw) {
+  browser.tabs.sendMessage(tabs[0].id, {
+    action: "sfw",
+    value: isSfw,
+  });
+  browser.storage.local.set({ sfw: isSfw });
+}
+
 /**
  * set value input
  */
-browser.storage.local.get(["repeatRecent", "loop", "every"], (data) => {
+browser.storage.local.get(["repeatRecent", "loop", "every", "sfw"], (data) => {
   recentSong.value = data.repeatRecent || 0;
   loopSong.checked = data.loop || false;
   everySong.checked = data.every || false;
+  sfwSong.checked = data.sfw || false;
 
   checkLoop(loopSong.checked);
 });
@@ -93,5 +103,12 @@ everySong.addEventListener("change", (e) => {
   browser.tabs
     .query({ url: "*://music.youtube.com/*" })
     .then((tabs) => every(tabs, e.target.checked))
+    .catch(err);
+});
+
+sfwSong.addEventListener("change", (e) => {
+  browser.tabs
+    .query({ url: "*://music.youtube.com/*" })
+    .then((tabs) => sfw(tabs, e.target.checked))
     .catch(err);
 });

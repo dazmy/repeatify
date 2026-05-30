@@ -56,3 +56,19 @@ function obsChangeSong(video) {
     attributeFilter: ["src"],
   });
 }
+
+function obsChangeSongImg(image) {
+  const observeChangeSongImg = new MutationObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.target.src && entry.target.src.includes("googleusercontent")) {
+          browser.storage.local.set({ defaultImg: entry.target.src });
+        }
+    });
+  });
+
+  observeChangeSongImg.observe(image, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ["src"],
+  });
+}

@@ -2,6 +2,7 @@
   browser.storage.local.clear();
   // use anywhere
   let video = document.querySelector("video");
+  let image = document.querySelector("#player #song-image img");
 
   // use when browser get refresh / first load!
   const observeVideo = new MutationObserver((entries) => {
@@ -11,13 +12,20 @@
         e.attributeName.includes("src")
       ) {
         video = document.querySelector("video");
-        observeVideo.disconnect();
+        // observeVideo.disconnect();
 
         checkStorage(video);
         obsChangeSong(video);
 
         document.querySelector(".playback-rate").hidden = false;
         document.querySelector(".repeat").hidden = true;
+      }
+      
+      if (e.target.nodeName.includes("IMG")) {
+        browser.storage.local.set({ defaultImg: e.target.src }); // for first load
+        obsChangeSongImg(image);
+
+        observeVideo.disconnect();
       }
     });
   });
@@ -96,6 +104,16 @@
     }
   }
 
+  function changeImage(isSfw) {
+    if (isSfw) {
+      image.src = "https://i.pinimg.com/originals/82/f1/23/82f123706017a4864d3dbe5ab8fd5e9f.jpg";
+    } else {
+      browser.storage.local.get(["defaultImg"], (data) => {
+        image.src = data.defaultImg;
+      });
+    }
+  }
+
   browser.runtime.onMessage.addListener((message) => {
     if (!video) return;
 
@@ -107,5 +125,7 @@
     if (message.action.includes("loop")) loop(message.value);
 
     if (message.action.includes("every")) console.log(message.value);
+
+    if (message.action.includes("sfw")) changeImage(message.value);
   });
 })();
