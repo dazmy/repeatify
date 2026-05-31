@@ -1,4 +1,4 @@
-import { exec, err } from "../modules/shared.js";
+import { exec, sfw, err } from "../modules/shared.js";
 
 const button = document.getElementById("play");
 const recentSong = document.querySelector("input#recentSong");
@@ -49,14 +49,6 @@ function every(tabs, isEvery) {
     value: isEvery,
   });
   browser.storage.local.set({ every: isEvery });
-}
-
-function sfw(tabs, isSfw) {
-  browser.tabs.sendMessage(tabs[0].id, {
-    action: "sfw",
-    value: isSfw,
-  });
-  browser.storage.local.set({ sfw: isSfw });
 }
 
 /**

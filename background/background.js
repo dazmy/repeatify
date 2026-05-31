@@ -1,4 +1,4 @@
-import { exec, loopShared, err } from "../modules/shared.js";
+import { exec, loopShared, sfw, err } from "../modules/shared.js";
 
 function alertLoop(tabs, isLoop) {
   const message = isLoop
@@ -53,6 +53,17 @@ browser.commands.onCommand.addListener((command) => {
       browser.tabs
         .query({ active: true, currentWindow: true })
         .then((tabs) => alertLoop(tabs, isLoop))
+        .catch(err);
+    });
+  }
+
+  if (command.includes("change-image")) {
+    browser.storage.local.get(["sfw"], (data) => {
+      const isSfw = !(data.sfw || false);
+
+      browser.tabs
+        .query({ url: "*://music.youtube.com/*" })
+        .then((tabs) => sfw(tabs, isSfw))
         .catch(err);
     });
   }

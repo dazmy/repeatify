@@ -42,6 +42,14 @@
         "mac": "Command+Shift+U"
       },
       "description": "repeat / no-repeat current song"
+    },
+    "change-image": {
+      "suggested_key": {
+        "default": "Alt+Shift+Y",
+        "windows": "Alt+Shift+Y",
+        "mac": "Alt+Shift+Y"
+      },
+      "description": "change song image to random / default"
     }
   }
 }
