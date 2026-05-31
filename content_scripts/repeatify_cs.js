@@ -4,6 +4,8 @@
   let video = document.querySelector("video");
   let image = document.querySelector("#player #song-image img");
 
+  let flagVideo = false;
+  let flagImage = false;
   // use when browser get refresh / first load!
   const observeVideo = new MutationObserver((entries) => {
     entries.forEach((e) => {
@@ -12,6 +14,7 @@
         e.attributeName.includes("src")
       ) {
         video = document.querySelector("video");
+        flagVideo = true;
         // observeVideo.disconnect();
 
         checkStorage(video);
@@ -24,7 +27,11 @@
       if (e.target.nodeName.includes("IMG")) {
         browser.storage.local.set({ defaultImg: e.target.src }); // for first load
         obsChangeSongImg(image);
+        flagImage = true;
+        // observeVideo.disconnect();
+      }
 
+      if (flagVideo && flagImage) {
         observeVideo.disconnect();
       }
     });
