@@ -65,10 +65,11 @@ function obsChangeSongImg(image, imageSmall) {
           browser.storage.local.set({ defaultImg: entry.target.src });
         }
 
-        browser.storage.local.get(["sfw"], (data) => {
+        browser.storage.local.get(["sfw", "randomImg"], (data) => {
           const sfw = data.sfw || false;
+          const randomImg = data.randomImg || "";
           if (sfw) {
-            entry.target.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
+            entry.target.src = randomImg;
           }
         });
       }
@@ -86,4 +87,26 @@ function obsChangeSongImg(image, imageSmall) {
     attributeOldValue: true,
     attributeFilter: ["src"],
   });
+}
+
+function randomImage() {
+  const images = [
+    "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg",
+    "https://i.pinimg.com/originals/d4/63/3d/d4633ddb3bf09bbca5ffee063d3f48cc.jpg",
+    "https://i.pinimg.com/736x/a5/74/b1/a574b1145c636a11a7e36c69b1ad1a10.jpg",
+    "https://i.pinimg.com/736x/9c/bb/f1/9cbbf11f13f5fca5db63da003f019ae5.jpg",
+    "https://i.pinimg.com/originals/be/b8/db/beb8db4141cc8d7b9f1f0362c891a018.jpg",
+    "https://i.pinimg.com/originals/d2/9b/c9/d29bc9830b70c0436eddb9310972b893.jpg",
+    "https://i.pinimg.com/originals/34/9c/cd/349ccd6e2e3d80a4f4c8fec8b71f530e.jpg",
+    "https://i.pinimg.com/originals/8a/76/fa/8a76fa77a4f741ab07cc70269df0b11e.jpg",
+  ];
+  return images[Math.floor(Math.random() * images.length)];
+}
+
+function changeImageRandom(image, imageSmall) {
+  const newSrc = randomImage();
+  browser.storage.local.set({ randomImg: newSrc });
+
+  if (image) image.src = newSrc;
+  if (imageSmall) imageSmall.src = newSrc;
 }

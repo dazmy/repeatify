@@ -114,8 +114,7 @@
 
   function changeImage(isSfw) {
     if (isSfw) {
-      image.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
-      imageSmall.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
+      changeImageRandom(image, imageSmall);
     } else {
       browser.storage.local.get(["defaultImg"], (data) => {
         image.src = data.defaultImg;
