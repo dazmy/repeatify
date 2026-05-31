@@ -57,11 +57,13 @@ function obsChangeSong(video) {
   });
 }
 
-function obsChangeSongImg(image) {
+function obsChangeSongImg(image, imageSmall) {
   const observeChangeSongImg = new MutationObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.target.src && entry.target.src.includes("googleusercontent")) {
-        browser.storage.local.set({ defaultImg: entry.target.src });
+        if (entry.target.id.includes("img")) {
+          browser.storage.local.set({ defaultImg: entry.target.src });
+        }
 
         browser.storage.local.get(["sfw"], (data) => {
           const sfw = data.sfw || false;
@@ -74,6 +76,12 @@ function obsChangeSongImg(image) {
   });
 
   observeChangeSongImg.observe(image, {
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: ["src"],
+  });
+
+  observeChangeSongImg.observe(imageSmall, {
     attributes: true,
     attributeOldValue: true,
     attributeFilter: ["src"],

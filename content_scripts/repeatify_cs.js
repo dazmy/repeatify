@@ -3,6 +3,7 @@
   // use anywhere
   let video = document.querySelector("video");
   let image = document.querySelector("#player #song-image img");
+  let imageSmall = document.querySelector("img.image.style-scope.ytmusic-player-bar");
 
   let flagVideo = false;
   let flagImage = false;
@@ -26,7 +27,7 @@
       
       if (e.target.nodeName.includes("IMG")) {
         browser.storage.local.set({ defaultImg: e.target.src }); // for first load
-        obsChangeSongImg(image);
+        obsChangeSongImg(image, imageSmall);
         flagImage = true;
         // observeVideo.disconnect();
       }
@@ -114,9 +115,11 @@
   function changeImage(isSfw) {
     if (isSfw) {
       image.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
+      imageSmall.src = "https://i.pinimg.com/736x/6e/8d/03/6e8d03749649ecb8b998e72c98694815.jpg";
     } else {
       browser.storage.local.get(["defaultImg"], (data) => {
         image.src = data.defaultImg;
+        imageSmall.src = data.defaultImg;
       });
     }
   }
