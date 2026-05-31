@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Repeatify",
-  "version": "1.4",
+  "version": "1.5",
   "description": "Manage repeat song for Youtube Music.",
   "icons": {
     "48": "icons/repeatify-48.png"
