@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Repeatify",
-  "version": "1.5",
+  "version": "1.6",
   "description": "Manage repeat song for Youtube Music.",
   "icons": {
     "48": "icons/repeatify-48.png"
@@ -19,7 +19,12 @@
     }
   ],
   "browser_specific_settings": {
-    "gecko": { "id": "{83ae1fd1-7306-4de4-adbf-850bb88a388c}" }
+    "gecko": { 
+      "id": "{83ae1fd1-7306-4de4-adbf-850bb88a388c}",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
   },
   "background": {
     "scripts": ["background/background.js"],
